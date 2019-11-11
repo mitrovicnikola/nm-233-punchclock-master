@@ -20,7 +20,7 @@ class IndexController {
         });
     }
 
-    async _fetchEntries() {
+    async _fetchUsers() {
         fetch('/entries', {
             method: "GET",
             headers: {
@@ -36,9 +36,7 @@ class IndexController {
             const entry = {
                 checkIn: document.getElementById('check-in-input').value,
                 checkOut: document.getElementById('check-out-input').value,
-                activity: {
-                    name: document.getElementById('check-check-input').value
-                }
+                activity: document.getElementById('check-check-input').value,
             };
 
             this._saveEntry(entry);
@@ -56,7 +54,7 @@ class IndexController {
             const clone = template.cloneNode(true);
             clone.querySelector('.check-in').innerHTML = `Check In: ${entry.checkIn}`;
             clone.querySelector('.check-out').innerHTML = `Check Out: ${entry.checkOut}`;
-            clone.querySelector('.check-check').innerHTML = `Activity: ${entry.activity.name}`;
+            clone.querySelector('.check-check').innerHTML = `Activity: ${entry.activity}`;
             clone.dataset.id = entry.id;
             clone.classList.remove('template');
             main.appendChild(clone);
@@ -81,7 +79,7 @@ class IndexController {
                 'content-type': 'application/json',
                 'Authorization': localStorage.getItem('authorization')
             }
-        }).then(_ => this._fetchEntries());
+        }).then(_ => this._fetchUsers());
     }
 
     _deleteEntry(id) {
@@ -90,7 +88,7 @@ class IndexController {
             headers: {
                 'Authorization': localStorage.getItem('authorization')
             }
-        }).then(_ => this._fetchEntries());
+        }).then(_ => this._fetchUsers());
     }
 }
 
